@@ -1,0 +1,17 @@
+name = "papo-livre"
+main = "worker/index.ts"
+compatibility_date = "2026-09-14"
+
+[durable_objects]
+bindings = [{ name = "ROOMS", class_name = "Room" }]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["Room"]
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "papo-livre-files"
+
+[assets]
+directory = "./dist"
