@@ -9,12 +9,16 @@ npm install
 npm run dev
 ```
 
-## Publicar no Cloudflare
+## Publicar pelo painel da Cloudflare
 
-1. Instale o Wrangler: `npm install -g wrangler`.
-2. Faça login: `wrangler login`.
-3. Crie o bucket R2: `wrangler r2 bucket create papo-livre-files`.
-4. Gere a build: `npm run build`.
-5. Publique: `wrangler deploy`.
+1. Envie este projeto para um repositório GitHub.
+2. No painel Cloudflare, abra **Workers & Pages > Create application > Import repository**.
+3. Selecione o repositório e escolha **Workers**, não Pages.
+4. Use estas configurações de build:
+	- Build command: `npm run build`
+	- Deploy command: `npx wrangler deploy`
+	- Root directory: `/`
+5. Antes do primeiro deploy, crie o bucket R2 `papo-livre-files` em **R2 > Create bucket**.
+6. No Worker, confirme os recursos Durable Objects e R2 quando o painel solicitar.
 
-O link gerado pelo Cloudflare pode ser enviado aos amigos. Cada sala usa o nome definido na URL (`/api/room/amizade`) e o Worker mantém as conexões via Durable Objects. Para produção, recomenda-se adicionar autenticação, limite de tamanho/tipo de arquivo e persistência das mensagens em D1.
+O `wrangler.toml` já informa à Cloudflare que o Worker usa Durable Objects, R2 e os arquivos gerados em `dist`. Cada sala usa o nome definido na URL (`/api/room/amizade`) e o Worker mantém as conexões via WebSocket.
