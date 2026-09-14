@@ -1,0 +1,28 @@
+name: Validar Papo Livre
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Validar TypeScript e gerar frontend
+        run: npm run build
+
+      - name: Validar configuração do Worker
+        run: npx wrangler deploy --dry-run
