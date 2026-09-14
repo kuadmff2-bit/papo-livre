@@ -11,14 +11,14 @@ npm run dev
 
 ## Publicar pelo painel da Cloudflare
 
-1. Envie este projeto para um repositório GitHub.
-2. No painel Cloudflare, abra **Workers & Pages > Create application > Import repository**.
-3. Selecione o repositório e escolha **Workers**, não Pages.
-4. Use estas configurações de build:
-	- Build command: `npm run build`
-	- Deploy command: `npx wrangler deploy`
-	- Root directory: `/`
-5. Antes do primeiro deploy, crie o bucket R2 `papo-livre-files` em **R2 > Create bucket**.
-6. No Worker, confirme os recursos Durable Objects e R2 quando o painel solicitar.
+1. No painel Cloudflare, abra **Workers & Pages > Create application > Import repository**.
+2. Selecione o repositório `papo-livre` e escolha **Workers**, não Pages.
+3. Use estas configurações:
+   - Build command: `npm run build`
+   - Deploy command: `npx wrangler deploy`
+   - Root directory: `/`
+4. Publique.
 
-O `wrangler.toml` já informa à Cloudflare que o Worker usa Durable Objects, R2 e os arquivos gerados em `dist`. Cada sala usa o nome definido na URL (`/api/room/amizade`) e o Worker mantém as conexões via WebSocket.
+O projeto usa **Workers Static Assets**, **Durable Objects** com armazenamento SQLite e **R2**. O bucket R2 é deixado sem nome no `wrangler.toml` para que o Wrangler/Cloudflare faça o provisionamento automático no primeiro deploy, inclusive em deploys conectados ao GitHub.
+
+As rotas `/api/*` passam primeiro pelo Worker, enquanto o frontend compilado pelo Vite é servido a partir de `dist`.
